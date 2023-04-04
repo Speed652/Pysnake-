@@ -1,5 +1,6 @@
 import pygame
 import random
+from start_screen import start_screen
 
 # Initialize Pygame
 pygame.init()
@@ -145,5 +146,8 @@ def game_loop():
     # Quit Pygame
     pygame.quit()
 
+
+# Start the start screen
+start_screen()
 # Start the game loop
 game_loop()
