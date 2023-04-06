@@ -9,7 +9,7 @@ pygame.init()
 window_width = 800
 window_height = 600
 window = pygame.display.set_mode((window_width, window_height))
-pygame.display.set_caption('Snake Game')
+pygame.display.set_caption('Snake.io')
 
 # Define colors
 white = (255, 255, 255)
@@ -17,7 +17,7 @@ black = (0, 0, 0)
 red = (255, 0, 0)
 
 # Define the size of the blocks
-block_size = 10
+block_size = 10 
 
 # Define the font
 font = pygame.font.SysFont(None, 25)
@@ -27,43 +27,51 @@ def message_to_screen(msg, color):
     screen_text = font.render(msg, True, color)
     window.blit(screen_text, [window_width/6, window_height/2])
 
-# Define the function to draw the snake
-def draw_snake(snake_block_size, snake_list):
+# Define the function to draw the snake and obstacles
+def draw_snake(snake_block_size, snake_list, obstacles):
     for x in snake_list:
         pygame.draw.rect(window, black, [x[0], x[1], snake_block_size, snake_block_size])
+    for obs in obstacles:
+        pygame.draw.rect(window, black, [obs[0], obs[1], obs[2], block_size])
+
+# Define the function to generate new obstacles
+def generate_obstacles(score):
+    obstacles = []
+    if score % 1 == 0:
+        num_obstacles = random.randint(1, 5)
+        for i in range(num_obstacles):
+            obs_width = random.randint(2, 10) * block_size
+            obs_height = block_size
+            obs_x = random.randint(0, (window_width - obs_width) // block_size) * block_size
+            obs_y = random.randint(0, (window_height - obs_height) // block_size) * block_size
+            obstacles.append((obs_x, obs_y, obs_width))
+    return obstacles
 
 # Define the game loop
 def game_loop():
-    # Set the game variables
+    # Initialize game variables
     game_over = False
     game_close = False
-
-    # Set the starting position of the snake
     x1 = window_width / 2
     y1 = window_height / 2
-
-    # Set the change in position of the snake
-    x1_change = 0       
+    x1_change = 0
     y1_change = 0
-
-    # Set the snake list and length
     snake_List = []
     Length_of_snake = 1
-
-    # Set the position of the food
     foodx = round(random.randrange(0, window_width - block_size) / 10.0) * 10.0
     foody = round(random.randrange(0, window_height - block_size) / 10.0) * 10.0
+    score = 0
+    obstacles = []
 
-    # Game loop
     while not game_over:
 
         # Game over loop
-        while game_close == True:
+        while game_close:
             window.fill(white)
             message_to_screen("You Lost! Press Q-Quit or C-Play Again", red)
             pygame.display.update()
 
-            # Check for user input after losing
+            #User input check after losing
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_q:
@@ -71,8 +79,7 @@ def game_loop():
                         game_close = False
                     if event.key == pygame.K_c:
                         game_loop()
-
-        # Check for events in the game
+        # events check
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game_over = True
@@ -93,6 +100,9 @@ def game_loop():
         # Check if the snake hits the border of the window
         if x1 >= window_width or x1 < 0 or y1 >= window_height or y1 < 0:
             game_close = True
+        for obstacle in obstacles:
+            if obstacle[0] == x1 and obstacle[1] == y1:
+                game_close = True
 
         # Update the position of the snake
         x1 += x1_change
@@ -117,8 +127,8 @@ def game_loop():
             if x == snake_Head:
                 game_close = True
 
-        # Draw the snake
-        draw_snake(block_size, snake_List)
+        # Draw the snake and obstacles
+        draw_snake(block_size, snake_List, obstacles)
 
         # Update the score
         score = Length_of_snake - 1
@@ -133,6 +143,9 @@ def game_loop():
             foodx = round(random.randrange(0, window_width - block_size) / 10.0) * 10.0
             foody = round(random.randrange(0, window_height - block_size) / 10.0) * 10.0
             Length_of_snake += 1
+            obstacles = generate_obstacles(score)
+
+        
 
         # Set the game clock
         clock = pygame.time.Clock()
