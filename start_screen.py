@@ -1,5 +1,4 @@
 import pygame
-from options import options_screen
 
 pygame.init()
 
@@ -64,8 +63,6 @@ def start_screen():
                     if selected_button == 0:
                         running = False
                     elif selected_button == 1:
-                        options_screen()
-                    elif selected_button == 2:
                         pygame.quit()
                         quit()
 
