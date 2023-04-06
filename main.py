@@ -15,6 +15,17 @@ pygame.display.set_caption('Snake.io')
 white = (255, 255, 255)
 black = (0, 0, 0)
 red = (255, 0, 0)
+yellow = (255,255,0)
+
+#import background
+image_path = "assets/58472.jpg"
+image = pygame.image.load(image_path)
+
+#setting up music
+music_path = "assets/music.mp3"
+pygame.mixer.music.load(music_path)
+#playing it (-1 is an infinite loop)
+pygame.mixer.music.play(-1)
 
 # Define the size of the blocks
 block_size = 10 
@@ -29,11 +40,15 @@ def message_to_screen(msg, color):
 
 # Define the function to draw the snake and obstacles
 def draw_snake(snake_block_size, snake_list, obstacles):
-    for x in snake_list:
-        pygame.draw.rect(window, black, [x[0], x[1], snake_block_size, snake_block_size])
+    for i in range(len(snake_list)):
+        if i == len(snake_list) - 1:  # if this is the last block
+            color = yellow
+        else:
+            color = black
+        pygame.draw.rect(window, color, [snake_list[i][0], snake_list[i][1], snake_block_size, snake_block_size])
     for obs in obstacles:
         pygame.draw.rect(window, black, [obs[0], obs[1], obs[2], block_size])
-
+        
 # Define the function to generate new obstacles
 def generate_obstacles(score):
     obstacles = []
@@ -109,7 +124,7 @@ def game_loop():
         y1 += y1_change
 
         # Fill the window with white
-        window.fill(white)
+        window.blit(image, (0, 0))
         
         # Draw the food
         pygame.draw.rect(window, red, [foodx, foody, block_size, block_size])

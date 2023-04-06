@@ -16,6 +16,10 @@ BUTTON_FONT_SIZE = 50
 title_font = pygame.font.Font(f"{FONT_FOLDER}/Roboto-Bold.ttf", TITLE_FONT_SIZE)
 button_font = pygame.font.Font(f"{FONT_FOLDER}/Roboto-Regular.ttf", BUTTON_FONT_SIZE)
 
+
+image_path = "assets/peakpx.jpg"
+image = pygame.image.load(image_path)
+
 # Set up colors
 BACKGROUND_COLOR = (68, 74, 88)
 TITLE_COLOR = (240, 240, 240)
@@ -66,8 +70,8 @@ def start_screen():
                         quit()
 
         # Clear the screen
-        window.fill(BACKGROUND_COLOR)
-
+        window.blit(image, (0, 0))
+        
         # Draw title text
         draw_text("Snake.io", title_font, TITLE_COLOR, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 6)
 
