@@ -9,13 +9,12 @@ The game will be developed using Pygame framework, with Python 3 as the programm
 
 Functional Requirements:
 
-1. The game should have a main menu that allows the player to start a new game, view the high scores, or exit the game.
-2. The game should display the current score and the length of the snake on the game screen.
+1. The game should have a main menu that allows the player to start a new game, or exit the game.
+2. The game should display the current score on the game screen.
 3. The snake should move continuously in a straight line until the player directs it to turn left or right.
 4. The game should have a randomly generated food item that the snake can consume to grow longer.
 5. The snake should die if it collides with a wall or its own tail.
-6. The game should keep track of the highest scores achieved and display them on the high scores menu.
-7. The game should have sound effects for game events such as snake movement, food consumption, and death.
+6. The game should have sound effects for game events such as snake movement, food consumption, and death.
 
 Non-Functional Requirements
 1.The game should have responsive and intuitive controls that allow the player to easily direct the snake's movements.
@@ -35,4 +34,3 @@ Deliverables
 1. Completed source code for the game.
 2. User manual for the game.
 3. Test plan and results.
-4. High score data file.
